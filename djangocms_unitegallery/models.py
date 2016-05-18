@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import json
 
-from django.db import models
-from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError
+import json
 
 from cms.models import CMSPlugin
 from cms.utils.compat.dj import python_2_unicode_compatible
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from filer.fields.image import FilerImageField
 from sorl.thumbnail.templatetags.thumbnail import is_portrait
 
 from .settings import DJANGOCMS_UNITEGALLERY_CONFIG as CONFIG
@@ -74,23 +75,8 @@ class Gallery(CMSPlugin):
 
 @python_2_unicode_compatible
 class GalleryPhoto(models.Model):
-    image = models.ImageField(_("Photo"), upload_to=get_media_path)
-    title = models.CharField(
-        _("Title"),
-        max_length=100,
-        blank=True,
-        help_text=_(
-            "Leave this blank if you don't want to display a title."
-        )
-    )
-    description = models.CharField(
-        _("Description"),
-        max_length=255,
-        blank=True,
-        help_text=_(
-            "Leave this blank if you don't want to display a description."
-        )
-    )
+    image = FilerImageField(_("Photo"))
+
     gallery = models.ForeignKey(
         Gallery,
         verbose_name=_("Gallery"),
@@ -98,9 +84,7 @@ class GalleryPhoto(models.Model):
     )
 
     def __str__(self):
-        if self.title:
-            return self.title
-        return _("Photo %s") % self.image.name
+        return self.image.name
 
     def get_thumbnail_size(self):
         """
