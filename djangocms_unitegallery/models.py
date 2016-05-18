@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from filer.fields.image import FilerImageField
-from sorl.thumbnail.templatetags.thumbnail import is_portrait
 
 from .settings import DJANGOCMS_UNITEGALLERY_CONFIG as CONFIG
 
@@ -89,15 +88,15 @@ class GalleryPhoto(models.Model):
     def get_thumbnail_size(self):
         """
         Returns a string representing the size of the thumbnail, suitable
-        for sorl-thumbnail, eg.: '150', 'x200', '200x200', etc.
+        for easy-thumbnail, eg.: '150x0', '0x200', '200x200', etc.
         """
         if not self.image or not CONFIG['THUMBNAIL_ENABLED']:
             return False
         if CONFIG['THUMBNAIL_PRESERVE_RATIO']:
-            if is_portrait(self.image):
-                ret = 'x%s' % CONFIG['THUMBNAIL_MAX_HEIGHT']
+            if self.image.height > self.image.width:
+                ret = '0x%s' % CONFIG['THUMBNAIL_MAX_HEIGHT']
             else:
-                ret = '%s' % CONFIG['THUMBNAIL_MAX_WIDTH']
+                ret = '%sx0' % CONFIG['THUMBNAIL_MAX_WIDTH']
         else:
             ret = '%sx%s' % (
                 CONFIG['THUMBNAIL_MAX_WIDTH'], CONFIG['THUMBNAIL_MAX_HEIGHT']
