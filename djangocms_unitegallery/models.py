@@ -75,7 +75,7 @@ class Gallery(CMSPlugin):
 
 @python_2_unicode_compatible
 class GalleryPhoto(models.Model):
-    image = FilerImageField(_("Photo"))
+    image = FilerImageField(verbose_name=_("Photo"))
 
     gallery = models.ForeignKey(
         Gallery,
