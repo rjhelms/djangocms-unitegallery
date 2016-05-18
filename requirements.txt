@@ -1,2 +1,4 @@
 django-cms>=3.0
-sorl-thumbnail>=12.0
+easy_thumbnails
+django-filer>=0.9.12
+cmsplugin-filer>=0.10.2

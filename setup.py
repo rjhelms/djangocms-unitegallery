@@ -10,7 +10,9 @@ from djangocms_unitegallery import __version__
 INSTALL_REQUIRES = [
     'django>=1.7',
     'django-cms>=3.0',
-    'sorl-thumbnail>=12.0',
+    'easy_thumbnails',
+    'django-filer>=0.9.12',
+    'cmsplugin-filer>=0.10.2',
 ]
 
 CLASSIFIERS = [
