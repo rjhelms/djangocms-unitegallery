@@ -58,8 +58,6 @@ class Gallery(CMSPlugin):
         for photo in old_instance.photos.all():
             new_photo = GalleryPhoto(
                 image=photo.image,
-                title=photo.title,
-                description=photo.description,
                 gallery=self
             )
             new_photo.save()
