@@ -1,8 +1,8 @@
 djangocms-unitegallery
 ======================
 
-.. image:: https://travis-ci.org/izimobil/djangocms-unitegallery.svg?branch=master
-    :target: https://travis-ci.org/izimobil/djangocms-unitegallery
+.. image:: https://travis-ci.org/rjhelms/djangocms-unitegallery.svg?branch=master
+    :target: https://travis-ci.org/rjhelms/djangocms-unitegallery
 
 .. image:: https://img.shields.io/pypi/l/djangocms-unitegallery.svg
 
