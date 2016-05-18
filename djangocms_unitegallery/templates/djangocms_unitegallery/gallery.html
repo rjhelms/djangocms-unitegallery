@@ -2,7 +2,7 @@
 <div id="gallery_{{ gallery.pk }}" style="display:none;" class="unitegallery{% if gallery.custom_classes %} {{ gallery.custom_classes }}{% endif %}">
 {% for photo in gallery.photos.all %}
   {% if CONFIG.THUMBNAIL_ENABLED %}
-    {% thumbnail photo.image photo.get_thumbnail_size crop="center" as im %}{% include "djangocms_unitegallery/_photo.html" %}{% endthumbnail %}
+    {% thumbnail photo.image photo.get_thumbnail_size crop="center" as im %}{% include "djangocms_unitegallery/_photo.html" %}
   {% else %}
     {% with photo.image as im %}{% include "djangocms_unitegallery/_photo.html" %}{% endwith %}
   {% endif %}
