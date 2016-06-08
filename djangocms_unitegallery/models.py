@@ -6,10 +6,12 @@ import json
 
 from cms.models import CMSPlugin
 from cms.utils.compat.dj import python_2_unicode_compatible
+from cmsplugin_filer_utils import FilerPluginManager
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from filer.fields.folder import FilerFolderField
 from filer.fields.image import FilerImageField
 
 from .settings import DJANGOCMS_UNITEGALLERY_CONFIG as CONFIG
@@ -83,20 +85,37 @@ class GalleryPhoto(models.Model):
     def __str__(self):
         return self.image.name
 
-    def get_thumbnail_size(self):
-        """
-        Returns a string representing the size of the thumbnail, suitable
-        for easy-thumbnail, eg.: '150x0', '0x200', '200x200', etc.
-        """
-        if not self.image or not CONFIG['THUMBNAIL_ENABLED']:
-            return False
-        if CONFIG['THUMBNAIL_PRESERVE_RATIO']:
-            if self.image.height > self.image.width:
-                ret = '0x%s' % CONFIG['THUMBNAIL_MAX_HEIGHT']
-            else:
-                ret = '%sx0' % CONFIG['THUMBNAIL_MAX_WIDTH']
-        else:
-            ret = '%sx%s' % (
-                CONFIG['THUMBNAIL_MAX_WIDTH'], CONFIG['THUMBNAIL_MAX_HEIGHT']
-            )
-        return ret
+# Models for supporting galleries made from folders
+
+@python_2_unicode_compatible
+class GalleryFolder(CMSPlugin):
+    theme = models.CharField(
+        _('Theme'),
+        max_length=20,
+        choices=GALLERY_THEMES,
+        default=GALLERY_THEMES[0][0],
+    )
+    options = models.TextField(
+        _('Theme options'),
+        blank=True,
+        help_text=_(
+            'This field allow you to pass a JSON object if you want to '
+            'customize the gallery. Please consult the Unite gallery docs '
+            'for a list of options.'
+        )
+    )
+    folder = FilerFolderField(verbose_name=_("Photo folder"))
+
+    translatable_content_excluded_fields = ['options', 'theme']
+
+    objects = FilerPluginManager(select_related=('folder',))
+
+    def __str__(self):
+        return self.get_theme_display()
+
+    def clean(self):
+        if self.options:
+            try:
+                json.loads(self.options)
+            except ValueError:
+                raise ValidationError('You must provide a valid JSON string')

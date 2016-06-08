@@ -1,17 +1,13 @@
-{% load static cms_tags sekizai_tags thumbnail thumbnail_size %}
+{% load static cms_tags sekizai_tags thumbnail thumbnail_size%}
 <div id="gallery_{{ gallery.pk }}" style="display:none;" class="unitegallery{% if gallery.custom_classes %} {{ gallery.custom_classes }}{% endif %}">
-{% for photo in gallery.photos.all %}
+{% for image in photos %}
 	{% if CONFIG.THUMBNAIL_ENABLED %}
-		{% with photo.image as image %}
-			{% get_thumbnail_size image as thumbnail_size %}
-			{% thumbnail photo.image thumbnail_size crop subject_location=photo.image.subject_location as thumb %}
-			{% include "djangocms_unitegallery/_photo.html" %}
-	    {% endwith %}
+		{% get_thumbnail_size image as thumbnail_size %}
+		{% thumbnail image thumbnail_size crop subject_location=image.subject_location as thumb %}
+		{% include "djangocms_unitegallery/_photo.html" %}
 	{% else %}
-		{% with photo.image as thumb %}
-			{% with photo.image as image %}
-				{% include "djangocms_unitegallery/_photo.html" %}
-			{% endwith %}
+		{% with image as thumb %}
+			{% include "djangocms_unitegallery/_photo.html" %}
 		{% endwith %}
 	{% endif %}
 {% endfor %}
