@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.assignment_tag(takes_context=True)
 def get_thumbnail_size(context, image):
     """
@@ -17,6 +18,7 @@ def get_thumbnail_size(context, image):
             ret = '%sx0' % context['CONFIG']['THUMBNAIL_MAX_WIDTH']
     else:
         ret = '%sx%s' % (
-            context['CONFIG']['THUMBNAIL_MAX_WIDTH'], context['CONFIG']['THUMBNAIL_MAX_HEIGHT']
+            context['CONFIG']['THUMBNAIL_MAX_WIDTH'],
+            context['CONFIG']['THUMBNAIL_MAX_HEIGHT']
         )
     return ret

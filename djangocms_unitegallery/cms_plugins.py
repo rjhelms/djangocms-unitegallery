@@ -29,6 +29,7 @@ class GalleryPlugin(CMSPluginBase):
         })
         return context
 
+
 class GalleryFolderPlugin(CMSPluginBase):
     """
     The gallery folder plugin instance

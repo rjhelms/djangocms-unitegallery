@@ -87,6 +87,7 @@ class GalleryPhoto(models.Model):
 
 # Models for supporting galleries made from folders
 
+
 @python_2_unicode_compatible
 class GalleryFolder(CMSPlugin):
     theme = models.CharField(
