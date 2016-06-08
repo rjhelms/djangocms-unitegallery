@@ -82,8 +82,14 @@ class GalleryPhoto(models.Model):
         related_name="photos"
     )
 
+    class Meta:
+        verbose_name = _("Photo")
+
     def __str__(self):
-        return self.image.name
+        if self.image.name:
+            return self.image.name
+        else:
+            return self.image.original_filename
 
 # Models for supporting galleries made from folders
 
