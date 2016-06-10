@@ -10,7 +10,7 @@ from djangocms_unitegallery import __version__
 INSTALL_REQUIRES = [
     'django>=1.7',
     'django-cms>=3.0',
-    'easy_thumbnails',
+    'easy_thumbnails>=1.2',
     'django-filer>=0.9.12',
     'cmsplugin-filer>=0.10.2',
 ]
@@ -60,7 +60,7 @@ setup(
         'djangocms_unitegallery.migrations',
     ],
     install_requires=INSTALL_REQUIRES,
-    license='LICENSE.txt',
+    license='LICENSE',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     long_description=open('README.rst').read(),
